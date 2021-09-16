@@ -1,4 +1,4 @@
-// swift-tools-version:5.0
+// swift-tools-version:5.5
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -19,10 +19,37 @@ let package = Package(
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
         // Targets can depend on other targets in this package, and on products in packages which this package depends on.
         .target(
+            name: "stb",
+            dependencies: [],
+            exclude: [
+                "stb/data",
+                "stb/deprecated",
+                "stb/docs",
+                "stb/tests",
+                "stb/tools",
+                "stb/LICENSE",
+                "stb/README.md"
+            ]),
+        .target(
             name: "SwiftImage",
-            dependencies: []),
+            dependencies: ["stb"],
+            exclude: [
+                "Info.plist",
+                "Convolution.swift.gyb",
+                "ImageOperators.swift.gyb",
+                "NumericPixel.swift.gyb",
+                "RGBAOperators.swift.gyb"
+            ]),
         .testTarget(
             name: "SwiftImageTests",
-            dependencies: ["SwiftImage"]),
-    ]
+            dependencies: ["SwiftImage"],
+            exclude: [
+                "Info.plist",
+                "Test2x1.png",
+                "Test2x2.png",
+                "Test4x4.png"
+            ]),
+    ],
+    cLanguageStandard: .c17,
+    cxxLanguageStandard: .cxx17
 )
